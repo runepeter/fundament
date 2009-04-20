@@ -1,9 +1,13 @@
 package no.jforce.fundament.domain;
 
 import no.jforce.fundament.annotations.NotNull;
-import no.jforce.fundament.domain.Entity;
+import no.jforce.fundament.util.ClassLoaderKit;
+import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Properties;
 
 /**
  * Interface for CRUD-based Repository-implementations.
@@ -35,10 +39,38 @@ public interface Repository<E extends Entity<I>, I extends Serializable> {
      */
     void delete( @NotNull E entity );
 
-    static class Factory {
+    /**
+     * Creates Repository-instances
+     */
+    static class Factory implements no.jforce.fundament.pattern.Factory<Repository> {
 
-        static <R extends Repository> R create(@NotNull Class<R> repositoryType) {
-            return null;
+        public static <R extends Repository> R create( @NotNull Class<R> repositoryType ) throws Exception {
+
+            Properties properties = loadRepositoryConfig();
+
+            return createRepositoryInstance( repositoryType, properties );
+        }
+
+        private static <R extends Repository> Properties loadRepositoryConfig() throws IOException {
+            Properties properties = new Properties();
+
+            InputStream is = null;
+            try {
+                properties.load( is = ClassLoaderKit.getResourceAsStream( "META-INF/services/repositories.properties" ) );
+            } finally {
+                IOUtils.closeQuietly( is );
+            }
+            return properties;
+        }
+
+        private static <R extends Repository> R createRepositoryInstance( Class<R> repositoryType, Properties properties ) {
+            String className = properties.getProperty( repositoryType.getName() );
+            if ( className == null ) {
+                throw new IllegalStateException( "There is no configured implementation for Repository-interface '" + repositoryType.getName() + "'." );
+            }
+
+            //noinspection unchecked
+            return (R) ClassLoaderKit.createNewInstance( className );
         }
 
     }

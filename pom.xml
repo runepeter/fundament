@@ -5,11 +5,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>no.jforce.maven</groupId>
+    <groupId>no.jforce.fundament</groupId>
     <artifactId>fundament</artifactId>
     <packaging>pom</packaging>
 
-    <name>Fundament :: Maven Project Scaffolding</name>
+    <name>jForce :: Fundament</name>
     <version>1.0-SNAPSHOT</version>
 
     <organization>
@@ -17,46 +17,17 @@
         <url>http://www.jforce.no/</url>
     </organization>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>3.8.2</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <modules>
+        <module>fundament-project</module>
+        <module>fundament-core</module>
+        <module>fundament-aspects</module>
+    </modules>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-idea-plugin</artifactId>
-                <configuration>
-                    <downloadSources>true</downloadSources>
-                    <downloadJavadocs>true</downloadJavadocs>
-                    <jdkLevel>1.5</jdkLevel>
-                    <linkModules>true</linkModules>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </reporting>
+    <properties>
+        <jdk.version>1.5</jdk.version>
+        <scm.project>fundament</scm.project>
+        <aspectj.version>1.6.2</aspectj.version>
+        <testng.version>5.8</testng.version>
+    </properties>
 
 </project>

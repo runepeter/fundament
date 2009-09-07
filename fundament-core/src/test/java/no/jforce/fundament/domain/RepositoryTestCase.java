@@ -33,7 +33,7 @@ public class RepositoryTestCase {
             throw new UnsupportedOperationException( "Implementation pending." );
         }
 
-        public void save( @NotNull TestEntity entity ) {
+        public TestEntity save( @NotNull TestEntity entity ) {
             throw new UnsupportedOperationException( "Implementation pending." );
         }
 
@@ -46,7 +46,7 @@ public class RepositoryTestCase {
     /**
      * @author <a href="mailto:runepeter@gmail.com">Rune Peter Bj&oslash;rnstad</a>
      */
-    public static class TestEntity implements Entity<Long> {
+    public static class TestEntity implements Entity<TestEntity, Long> {
 
         private final Long id;
 
@@ -54,9 +54,13 @@ public class RepositoryTestCase {
             this.id = id;
         }
 
-        public Long getId() {
+        public Long id() {
             return id;
-    }
+        }
 
-}
+        public boolean hasSameIdentityAs( TestEntity otherEntity ) {
+            return id().equals( otherEntity.id() );
+        }
+
+    }
 }

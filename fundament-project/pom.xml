@@ -24,6 +24,18 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>no.jforce.fundament</groupId>
+                <artifactId>fundament-aspects</artifactId>
+                <version>${pom.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.jforce.fundament</groupId>
+                <artifactId>fundament-core</artifactId>
+                <version>${pom.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjlib</artifactId>
@@ -77,7 +89,7 @@
                 <configuration>
                     <downloadSources>true</downloadSources>
                     <downloadJavadocs>true</downloadJavadocs>
-                    <jdkLevel>1.5</jdkLevel>
+                    <jdkLevel>${jdk.version}</jdkLevel>
                     <linkModules>true</linkModules>
                 </configuration>
             </plugin>

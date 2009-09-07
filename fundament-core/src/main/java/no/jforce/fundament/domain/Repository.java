@@ -6,7 +6,6 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.Properties;
 
 /**
@@ -15,7 +14,7 @@ import java.util.Properties;
  * @param <E> the type of the {@link no.jforce.fundament.domain.Entity}-class that is stored in the repository.
  * @param <I> the type of the identifier used by {@code E}.
  */
-public interface Repository<E extends Entity<I>, I extends Serializable> {
+public interface Repository<E extends Entity, I> {
 
     /**
      * Retrieves an entity (of type {@code E}) whose Id matches {@code entityId}.
@@ -29,8 +28,9 @@ public interface Repository<E extends Entity<I>, I extends Serializable> {
      * Inserts entity {@code entity} into the repository, or makes an update the current store version of {@code entity}..
      *
      * @param entity the {@link no.jforce.fundament.domain.Entity} to store (or update).
+     * @return the saved entity.
      */
-    void save( @NotNull E entity );
+    E save( @NotNull E entity );
 
     /**
      * Deletes entity {@code entity} from the repository.
@@ -44,19 +44,21 @@ public interface Repository<E extends Entity<I>, I extends Serializable> {
      */
     static class Factory implements no.jforce.fundament.pattern.Factory<Repository> {
 
-        public static <R extends Repository> R create( @NotNull Class<R> repositoryType ) throws Exception {
+        public static <R extends Repository> R create( @NotNull Class<R> repositoryType ) {
 
             Properties properties = loadRepositoryConfig();
 
             return createRepositoryInstance( repositoryType, properties );
         }
 
-        private static <R extends Repository> Properties loadRepositoryConfig() throws IOException {
+        private static <R extends Repository> Properties loadRepositoryConfig() {
             Properties properties = new Properties();
 
             InputStream is = null;
             try {
                 properties.load( is = ClassLoaderKit.getResourceAsStream( "META-INF/services/repositories.properties" ) );
+            } catch ( IOException e ) {
+                throw new IllegalStateException( "Unable to load Repository configuration.", e );
             } finally {
                 IOUtils.closeQuietly( is );
             }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns = "http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,9 +17,9 @@
     <name>jForce :: Fundament :: Maven Project Scaffolding</name>
 
     <scm>
-        <connection>scm:svn:https://www.jforce.no/svn/public/${pom.artifactId}/trunk</connection>
-        <developerConnection>scm:svn:https://www.jforce.no/svn/public/${pom.artifactId}/trunk</developerConnection>
-        <url>scm:svn:https://www.jforce.no/svn/public/${pom.artifactId}/trunk</url>
+        <connection>scm:git:git://github.com/runepeter/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:git@github.com:runepeter/${project.artifactId}.git</developerConnection>
+        <url>scm:git:git://github.com/runepeter/${project.artifactId}.git</url>
     </scm>
 
     <dependencyManagement>
@@ -135,12 +135,8 @@
                                     <version>${jdk.version}</version>
                                 </requireJavaVersion>
                                 <evaluateBeanshell>
-                                    <condition>("${pom.artifactId}".startsWith("fundament-")) ||
-                                        (!"${scm.project}".equals("fundament"))
-                                    </condition>
-                                    <message>You need to specify a 'scm.project' property indicating your SCM project
-                                        name.
-                                    </message>
+                                    <condition>("${pom.artifactId}".startsWith("fundament-")) || (!"${scm.project}".equals("fundament"))</condition>
+                                    <message>You need to specify a 'scm.project' property indicating your SCM project name.</message>
                                 </evaluateBeanshell>
                             </rules>
                         </configuration>

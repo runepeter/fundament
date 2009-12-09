@@ -21,13 +21,44 @@
         <module>fundament-project</module>
         <module>fundament-core</module>
         <module>fundament-aspects</module>
+        <module>examples</module>
     </modules>
 
     <properties>
         <jdk.version>1.6</jdk.version>
         <scm.project>fundament</scm.project>
-        <aspectj.version>1.6.2</aspectj.version>
+        <aspectj.version>1.6.6</aspectj.version>
         <testng.version>5.9</testng.version>
     </properties>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-s3</artifactId>
+                <version>1.0-beta-7-SNAPSHOT</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>s3-release</id>
+            <name>jForce S3 Release</name>
+            <url>s3rest://release.jforce.no/</url>
+        </repository>
+        <snapshotRepository>
+            <id>s3-snapshot</id>
+            <name>jForce S3 Snapshot</name>
+            <url>s3rest://snapshot.jforce.no/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>

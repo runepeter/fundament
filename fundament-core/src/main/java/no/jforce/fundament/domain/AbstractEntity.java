@@ -29,7 +29,8 @@ public abstract class AbstractEntity<E extends Entity, I> implements Entity<E, I
 		return id;
 	}
 
-	public boolean hasSameIdentityAs(@NotNull E otherEntity) {
+	@Override
+	public boolean equals(@NotNull E otherEntity) {
 		return otherEntity.id().equals(id());
 	}
 

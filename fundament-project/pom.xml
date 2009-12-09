@@ -24,7 +24,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>no.jforce.fundament</groupId>
                 <artifactId>fundament-aspects</artifactId>
@@ -35,7 +34,6 @@
                 <artifactId>fundament-core</artifactId>
                 <version>${pom.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjlib</artifactId>
@@ -57,6 +55,7 @@
                 <version>${aspectj.version}</version>
             </dependency>
 
+            <!-- Test dependecies: -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -73,7 +72,27 @@
         </dependencies>
     </dependencyManagement>
 
+    <repositories>
+        <repository>
+            <id>s3-snapshot</id>
+            <name>jForce S3 Snapshot</name>
+            <url>http://snapshot.jforce.no.s3.amazonaws.com/</url>
+        </repository>
+        <repository>
+            <id>s3-release</id>
+            <name>jForce S3 Release</name>
+            <url>http://release.jforce.no.s3.amazonaws.com/</url>
+        </repository>
+    </repositories>
+
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-s3</artifactId>
+                <version>1.0-beta-7-SNAPSHOT</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -116,13 +135,22 @@
                                     <version>${jdk.version}</version>
                                 </requireJavaVersion>
                                 <evaluateBeanshell>
-                                    <condition>("${pom.artifactId}".startsWith("fundament-")) || (!"${scm.project}".equals("fundament"))</condition>
-                                    <message>You need to specify a 'scm.project' property indicating your SCM project name.</message>
+                                    <condition>("${pom.artifactId}".startsWith("fundament-")) ||
+                                        (!"${scm.project}".equals("fundament"))
+                                    </condition>
+                                    <message>You need to specify a 'scm.project' property indicating your SCM project
+                                        name.
+                                    </message>
                                 </evaluateBeanshell>
                             </rules>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.4</version>
             </plugin>
         </plugins>
     </build>
